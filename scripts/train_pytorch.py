@@ -22,6 +22,10 @@ Multi-Node Training:
     scripts/train_pytorch.py <config_name> --exp_name=<run_name> --save_interval <interval>
 
 """
+# Ensure the wandb project defaults to "openpi" unless otherwise specified in the config. 
+# This will make all runs appear under the "openpi" project in the wandb console by default.
+import os
+os.environ.setdefault("WANDB_PROJECT", "openpi")
 
 import dataclasses
 import gc

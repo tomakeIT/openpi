@@ -51,6 +51,25 @@ GIT_LFS_SKIP_SMUDGE=1 uv pip install -e .
 
 NOTE: `GIT_LFS_SKIP_SMUDGE=1` is needed to pull LeRobot as a dependency.
 
+### Conda (alternative to uv)
+
+If you prefer managing the environment with conda/mamba, we provide `environment.yml` (and `environment-rlds.yml` for RLDS training).
+
+```bash
+cd openpi
+
+# Recommended: avoid pulling large git-lfs files while installing LeRobot.
+GIT_LFS_SKIP_SMUDGE=1 conda env create -f environment.yml
+conda activate openpi
+```
+
+For DROID RLDS training dependencies, use:
+
+```bash
+GIT_LFS_SKIP_SMUDGE=1 conda env create -f environment-rlds.yml
+conda activate openpi-rlds
+```
+
 **Docker**: As an alternative to uv installation, we provide instructions for installing openpi using Docker. If you encounter issues with your system setup, consider using Docker to simplify installation. See [Docker Setup](docs/docker.md) for more details.
 
 

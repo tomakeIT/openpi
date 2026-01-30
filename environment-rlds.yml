@@ -1,0 +1,24 @@
+name: openpi-rlds
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - git
+  - git-lfs
+  - ffmpeg
+  - pip:
+      # Base openpi env
+      # IMPORTANT:
+      # - "-e ." will install *all* runtime dependencies declared in pyproject.toml ([project].dependencies).
+      # - We intentionally do NOT duplicate that whole list here to avoid conda/pip conflicts.
+      - "lerobot @ git+https://github.com/huggingface/lerobot@0cf864870cf29f4738d3ade893e6fd13fbd7cdb5"
+      - "-e packages/openpi-client"
+      - "-e ."
+
+      # RLDS / DROID training extras (mirrors [dependency-groups].rlds)
+      - "dlimp @ git+https://github.com/kvablack/dlimp@ad72ce3a9b414db2185bc0b38461d4101a65477a"
+      - "tensorflow-cpu==2.15.0"
+      - "tensorflow-datasets==4.9.9"
+
+

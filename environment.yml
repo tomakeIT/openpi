@@ -1,0 +1,21 @@
+name: openpi
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - git
+  - git-lfs
+  - ffmpeg
+  - pip:
+      # IMPORTANT:
+      # - "-e ." will install *all* runtime dependencies declared in pyproject.toml ([project].dependencies),
+      #   e.g. jax[cuda12], torch, transformers, etc.
+      # - We intentionally do NOT duplicate that whole list here to avoid conflicts between conda/pip and
+      #   to keep pyproject.toml as the single source of truth for Python deps.
+      # NOTE: LeRobot uses git-lfs; we recommend setting GIT_LFS_SKIP_SMUDGE=1 when creating the env.
+      - "lerobot @ git+https://github.com/huggingface/lerobot@0cf864870cf29f4738d3ade893e6fd13fbd7cdb5"
+      - "-e packages/openpi-client"
+      - "-e ."
+
+
