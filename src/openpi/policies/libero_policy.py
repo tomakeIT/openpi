@@ -73,8 +73,8 @@ class LiberoInputs(transforms.DataTransformFn):
 
         # Pad actions to the model action dimension. Keep this for your own dataset.
         # Actions are only available during training.
-        if "action" in data:
-            inputs["actions"] = data["action"]
+        if "actions" in data:
+            inputs["actions"] = data["actions"]
 
         # Pass the prompt (aka language instruction) to the model.
         # Keep this for your own dataset (but modify the key if the instruction is not
