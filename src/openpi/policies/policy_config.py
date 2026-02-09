@@ -22,6 +22,7 @@ def create_trained_policy(
     default_prompt: str | None = None,
     norm_stats: dict[str, transforms.NormStats] | None = None,
     pytorch_device: str | None = None,
+    jax_params_dtype: str | None = None,
 ) -> _policy.Policy:
     """Create a policy from a trained checkpoint.
 
@@ -54,7 +55,18 @@ def create_trained_policy(
         model = train_config.model.load_pytorch(train_config, weight_path)
         model.paligemma_with_expert.to_bfloat16_for_selected_params("bfloat16")
     else:
-        model = train_config.model.load(_model.restore_params(checkpoint_dir / "params", dtype=jnp.bfloat16))
+        dtype_map = {
+            "bfloat16": jnp.bfloat16,
+            "float16": jnp.float16,
+            "float32": jnp.float32,
+        }
+        if jax_params_dtype is None:
+            jax_params_dtype = "bfloat16"
+        if jax_params_dtype not in dtype_map:
+            raise ValueError(f"Unsupported jax_params_dtype: {jax_params_dtype}")
+        model = train_config.model.load(
+            _model.restore_params(checkpoint_dir / "params", dtype=dtype_map[jax_params_dtype])
+        )
     data_config = train_config.data.create(train_config.assets_dirs, train_config.model)
     if norm_stats is None:
         # We are loading the norm stats from the checkpoint instead of the config assets dir to make sure
